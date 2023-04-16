@@ -1,0 +1,26 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "mkrmdk@gmail.com",
+                "Name": "eatsu"
+            }
+        ],
+        "BugReportUrl": "https://github.com/eatsu/plasmoid-spacer-as-pager/issues",
+        "Category": "Windows and Tasks",
+        "Description": "A panel spacer with virtual desktop switching",
+        "EnabledByDefault": true,
+        "Icon": "user-desktop",
+        "Id": "com.github.eatsu.spaceraspager",
+        "License": "GPL-2.0+",
+        "Name": "Spacer as Pager",
+        "Version": "1.0",
+        "Website": "https://github.com/eatsu/plasmoid-spacer-as-pager"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-MainScript": "ui/main.qml",
+    "X-Plasma-Provides": [
+        "org.kde.plasma.virtualdesktops"
+    ]
+}
