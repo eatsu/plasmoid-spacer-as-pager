@@ -6,7 +6,7 @@
   <kcfgfile name=""/>
 
   <group name="General">
-    <entry name="wrapPage" type="bool">
+    <entry name="wrapPage" type="Bool">
         <label>Whether to wrap page when navigating with the spacer.</label>
         <default>false</default>
     </entry>
