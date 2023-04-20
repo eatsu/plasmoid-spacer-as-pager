@@ -2,11 +2,11 @@
 
 A panel spacer with virtual desktop switching for KDE Plasma.
 
-Like the built-in panel spacer, this supports both flexible and fixed sizes.
-
 This widget is suitable for people who want to quickly switch between virtual desktops
 only with mouse, but find [Pager](https://userbase.kde.org/Plasma/Pager) uncomfortable
 due to its size (too small or too big) and appearance (cluttered and distracting).
+
+Like the built-in panel spacer, this widget supports both flexible and fixed sizes.
 
 > **Note**: You cannot combine this widget with the built-in panel spacer to
 > center other widgets. Instead, place this widget on each side.
