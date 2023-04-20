@@ -6,6 +6,7 @@
 
 import QtQuick 2.5
 import QtQuick.Controls 2.5 as QQC2
+import QtQuick.Layouts 1.1
 
 import org.kde.kirigami 2.5 as Kirigami
 import org.kde.plasma.plasmoid 2.0
@@ -49,12 +50,19 @@ Kirigami.FormLayout {
         QQC2.ButtonGroup.group: expandingGroup
     }
 
-    QQC2.SpinBox {
-        id: length
-        from: 1
-        to: 9999
-        // textFromValue: function(value) { return value + "px" }
-        // valueFromText: function(text) { return parseFloat(text) }
+    RowLayout {
+        spacing: Kirigami.Units.smallSpacing
         enabled: !expanding.checked
+
+        QQC2.SpinBox {
+            id: length
+            from: 1
+            to: 9999
+        }
+
+        QQC2.Label {
+            text: "px"
+            color: enabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
+        }
     }
 }
