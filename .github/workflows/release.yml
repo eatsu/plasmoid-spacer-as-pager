@@ -1,0 +1,25 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  file_name: ${{ github.event.repository.name }}-${{ github.ref_name }}.plasmoid
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build
+        run: |
+          zip -r ${{ env.file_name }} LICENSE README.md
+          cd package
+          zip -r ../${{ env.file_name }} *
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ env.file_name }}
