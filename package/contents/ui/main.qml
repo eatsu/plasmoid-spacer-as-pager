@@ -33,8 +33,27 @@ MouseArea {
 
     property int wheelDelta: 0
 
+    PlasmaCore.DataSource {
+        id: executable
+        engine: "executable"
+        connectedSources: []
+        onNewData: disconnectSource(sourceName)
+
+        function exec(cmd) {
+            executable.connectSource(cmd)
+        }
+    }
+
     function action_openKCM() {
         KQuickControlsAddonsComponents.KCMShell.openSystemSettings("kcm_kwin_virtualdesktops");
+    }
+
+    function action_openOverview() {
+        executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview")
+    }
+
+    function action_runCommand() {
+        executable.exec(plasmoid.configuration.command)
     }
 
     // Search the actual gridLayout of the panel
@@ -47,6 +66,14 @@ MouseArea {
             candidate = candidate.parent;
         }
         return null;
+    }
+
+    onClicked: {
+        if (plasmoid.configuration.leftClickAction === 1) {
+            action_openOverview()
+        } else if (plasmoid.configuration.leftClickAction === 2) {
+            action_runCommand()
+        }
     }
 
     onWheel: {

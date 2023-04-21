@@ -15,10 +15,56 @@ Kirigami.FormLayout {
     anchors.right: parent.right
 
     property alias cfg_wrapPage: wrapPage.checked
+    property alias cfg_command: command.text
+    property int cfg_leftClickAction
 
     CheckBox {
         Kirigami.FormData.label: i18n("Mouse wheel:")
         id: wrapPage
         text: i18n("Navigation wraps around")
+    }
+
+    Item {
+        Kirigami.FormData.isSection: true
+    }
+
+    ButtonGroup {
+        id: leftClickActionGroup
+    }
+
+    RadioButton {
+        Kirigami.FormData.label: i18n("Left Click:")
+        id: doNothingRadio
+        text: i18n("Do nothing")
+        checked: cfg_leftClickAction === 0
+        onToggled: if (checked) cfg_leftClickAction = 0
+        ButtonGroup.group: leftClickActionGroup
+    }
+
+    RadioButton {
+        id: openOverviewRadio
+        text: i18n("Open Overview")
+        checked: cfg_leftClickAction === 1
+        onToggled: if (checked) cfg_leftClickAction = 1
+        ButtonGroup.group: leftClickActionGroup
+    }
+
+    Label {
+        text: i18n("The Overview effect must be enabled to use this.")
+        font: Kirigami.Theme.smallFont
+    }
+
+    RadioButton {
+        id: runCommandRadio
+        text: i18n("Run command")
+        checked: cfg_leftClickAction === 2
+        onToggled: if (checked) cfg_leftClickAction = 2
+        ButtonGroup.group: leftClickActionGroup
+    }
+
+    TextField {
+        id: command
+        placeholderText: i18n("e.g. konsole")
+        enabled: runCommandRadio.checked
     }
 }
