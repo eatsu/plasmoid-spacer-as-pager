@@ -6,10 +6,6 @@
   <kcfgfile name=""/>
 
   <group name="General">
-    <entry name="wrapPage" type="Bool">
-        <label>Whether to wrap page when navigating with the spacer.</label>
-        <default>false</default>
-    </entry>
     <entry name="expanding" type="bool">
         <label>If true, the spacer tries to take all the available space in the panel.</label>
         <default>true</default>
@@ -17,6 +13,10 @@
     <entry name="length" type="Int">
         <label>length in pixels of the spacer. Configuration effective only if expanding is set to false. A negative value means an invalid value that should be completely ignored.</label>
         <default>8</default>
+    </entry>
+    <entry name="wrapPage" type="Bool">
+        <label>Whether to wrap page when navigating with the spacer.</label>
+        <default>false</default>
     </entry>
   </group>
 
