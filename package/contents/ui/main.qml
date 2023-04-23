@@ -48,7 +48,7 @@ MouseArea {
         KQuickControlsAddonsComponents.KCMShell.openSystemSettings("kcm_kwin_virtualdesktops");
     }
 
-    function action_openOverview() {
+    function action_showOverview() {
         executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview")
     }
 
@@ -70,7 +70,7 @@ MouseArea {
 
     onClicked: {
         if (Plasmoid.configuration.leftClickAction === 1) {
-            action_openOverview()
+            action_showOverview()
         } else if (Plasmoid.configuration.leftClickAction === 2) {
             action_runCommand()
         }

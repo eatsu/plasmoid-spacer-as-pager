@@ -22,7 +22,7 @@
         <label>What to do on left-mouse click on the spacer.</label>
         <choices>
             <choice name="DoNothing"/>
-            <choice name="OpenOverview"/>
+            <choice name="ShowOverview"/>
             <choice name="RunCommand"/>
         </choices>
         <default>0</default>

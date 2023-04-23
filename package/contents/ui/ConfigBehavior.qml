@@ -42,8 +42,8 @@ Kirigami.FormLayout {
     }
 
     RadioButton {
-        id: openOverviewRadio
-        text: i18n("Open Overview")
+        id: showOverviewRadio
+        text: i18n("Show the overview")
         checked: cfg_leftClickAction === 1
         onToggled: if (checked) cfg_leftClickAction = 1
         ButtonGroup.group: leftClickActionGroup
