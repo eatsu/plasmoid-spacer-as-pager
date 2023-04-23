@@ -53,7 +53,7 @@ MouseArea {
     }
 
     function action_runCommand() {
-        executable.exec(plasmoid.configuration.command)
+        executable.exec(Plasmoid.configuration.command)
     }
 
     // Search the actual gridLayout of the panel
@@ -69,9 +69,9 @@ MouseArea {
     }
 
     onClicked: {
-        if (plasmoid.configuration.leftClickAction === 1) {
+        if (Plasmoid.configuration.leftClickAction === 1) {
             action_openOverview()
-        } else if (plasmoid.configuration.leftClickAction === 2) {
+        } else if (Plasmoid.configuration.leftClickAction === 2) {
             action_runCommand()
         }
     }
