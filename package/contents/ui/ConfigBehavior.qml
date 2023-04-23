@@ -42,10 +42,18 @@ Kirigami.FormLayout {
     }
 
     RadioButton {
-        id: showOverviewRadio
-        text: i18n("Show the overview")
+        id: showDesktopRadio
+        text: i18n("Show the desktop")
         checked: cfg_leftClickAction === 1
         onToggled: if (checked) cfg_leftClickAction = 1
+        ButtonGroup.group: leftClickActionGroup
+    }
+
+    RadioButton {
+        id: showOverviewRadio
+        text: i18n("Show the overview")
+        checked: cfg_leftClickAction === 2
+        onToggled: if (checked) cfg_leftClickAction = 2
         ButtonGroup.group: leftClickActionGroup
     }
 
@@ -57,8 +65,8 @@ Kirigami.FormLayout {
     RadioButton {
         id: runCommandRadio
         text: i18n("Run command")
-        checked: cfg_leftClickAction === 2
-        onToggled: if (checked) cfg_leftClickAction = 2
+        checked: cfg_leftClickAction === 3
+        onToggled: if (checked) cfg_leftClickAction = 3
         ButtonGroup.group: leftClickActionGroup
     }
 
