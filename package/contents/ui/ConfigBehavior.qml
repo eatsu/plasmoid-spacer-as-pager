@@ -33,7 +33,7 @@ Kirigami.FormLayout {
     }
 
     RadioButton {
-        Kirigami.FormData.label: i18n("Left Click:")
+        Kirigami.FormData.label: i18n("Left click:")
         id: doNothingRadio
         text: i18n("Do nothing")
         checked: cfg_leftClickAction === 0
