@@ -44,30 +44,18 @@ MouseArea {
         }
     }
 
-    function action_openKCM() {
-        KQuickControlsAddonsComponents.KCMShell.openSystemSettings("kcm_kwin_virtualdesktops");
-    }
-
-    function action_showDesktop() {
-        executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut 'Show Desktop'")
-    }
-
-    function action_showOverview() {
-        executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview")
-    }
-
-    function action_runCommand(command) {
-        executable.exec(command)
-    }
-
     function clickAction(action, command) {
         if (action === 1) {
-            action_showDesktop()
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut 'Show Desktop'")
         } else if (action === 2) {
-            action_showOverview()
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview")
         } else if (action === 3) {
-            action_runCommand(command)
+            executable.exec(command)
         }
+    }
+
+    function action_openKCM() {
+        KQuickControlsAddonsComponents.KCMShell.openSystemSettings("kcm_kwin_virtualdesktops");
     }
 
     // Search the actual gridLayout of the panel
