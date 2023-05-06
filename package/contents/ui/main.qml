@@ -56,17 +56,17 @@ MouseArea {
         executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview")
     }
 
-    function action_runCommand() {
-        executable.exec(Plasmoid.configuration.command)
+    function action_runCommand(command) {
+        executable.exec(command)
     }
 
-    function clickAction(config) {
-        if (config === 1) {
+    function clickAction(action, command) {
+        if (action === 1) {
             action_showDesktop()
-        } else if (config === 2) {
+        } else if (action === 2) {
             action_showOverview()
-        } else if (config === 3) {
-            action_runCommand()
+        } else if (action === 3) {
+            action_runCommand(command)
         }
     }
 
@@ -94,13 +94,22 @@ MouseArea {
     onClicked: {
         switch (mouse.button) {
         case Qt.LeftButton:
-            clickAction(Plasmoid.configuration.leftClickAction);
+            clickAction(
+                Plasmoid.configuration.leftClickAction,
+                Plasmoid.configuration.leftClickCommand
+            );
             break;
         case Qt.MiddleButton:
-            clickAction(Plasmoid.configuration.middleClickAction);
+            clickAction(
+                Plasmoid.configuration.middleClickAction,
+                Plasmoid.configuration.middleClickCommand
+            );
             break;
         case Qt.RightButton:
-            clickAction(Plasmoid.configuration.rightClickAction);
+            clickAction(
+                Plasmoid.configuration.rightClickAction,
+                Plasmoid.configuration.rightClickCommand
+            );
             break;
         }
     }
