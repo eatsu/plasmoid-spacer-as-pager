@@ -44,7 +44,7 @@ MouseArea {
         }
     }
 
-    function clickAction(action, command) {
+    function setClickAction(action, command) {
         if (action === 1) {
             executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut 'Show Desktop'")
         } else if (action === 2) {
@@ -82,19 +82,19 @@ MouseArea {
     onClicked: {
         switch (mouse.button) {
         case Qt.LeftButton:
-            clickAction(
+            setClickAction(
                 Plasmoid.configuration.leftClickAction,
                 Plasmoid.configuration.leftClickCommand
             );
             break;
         case Qt.MiddleButton:
-            clickAction(
+            setClickAction(
                 Plasmoid.configuration.middleClickAction,
                 Plasmoid.configuration.middleClickCommand
             );
             break;
         case Qt.RightButton:
-            clickAction(
+            setClickAction(
                 Plasmoid.configuration.rightClickAction,
                 Plasmoid.configuration.rightClickCommand
             );
