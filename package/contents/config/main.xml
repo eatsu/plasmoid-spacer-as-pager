@@ -24,6 +24,10 @@
             <choice name="DoNothing"/>
             <choice name="ShowDesktop"/>
             <choice name="ShowOverview"/>
+            <choice name="ShowDesktopGrid"/>
+            <choice name="ExposeAll"/>
+            <choice name="Expose"/>
+            <choice name="ExposeClass"/>
             <choice name="RunCommand"/>
         </choices>
         <default>0</default>
@@ -38,6 +42,10 @@
             <choice name="DoNothing"/>
             <choice name="ShowDesktop"/>
             <choice name="ShowOverview"/>
+            <choice name="ShowDesktopGrid"/>
+            <choice name="ExposeAll"/>
+            <choice name="Expose"/>
+            <choice name="ExposeClass"/>
             <choice name="RunCommand"/>
         </choices>
         <default>0</default>
@@ -52,6 +60,10 @@
             <choice name="DoNothing"/>
             <choice name="ShowDesktop"/>
             <choice name="ShowOverview"/>
+            <choice name="ShowDesktopGrid"/>
+            <choice name="ExposeAll"/>
+            <choice name="Expose"/>
+            <choice name="ExposeClass"/>
             <choice name="RunCommand"/>
         </choices>
         <default>0</default>

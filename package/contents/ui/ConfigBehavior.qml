@@ -23,12 +23,15 @@ Kirigami.FormLayout {
     property alias cfg_rightClickCommand: rightClickCommand.text
 
     property var actionList: [
-        i18n("Do nothing"),
-        i18n("Show the desktop"),
-        i18n("Show the overview"),
-        i18n("Run a command"),
+        i18n("Do Nothing"),
+        i18n("Show Desktop"),
+        i18n("Show Overview"),
+        i18n("Show Desktop Grid"),
+        i18n("Show Present Windows (All Desktops)"),
+        i18n("Show Present Windows (Current Desktop)"),
+        i18n("Show Present Windows (Current Application)"),
+        i18n("Run Command"),
     ]
-    property var overviewHintText: i18n("The Overview effect must be enabled to use this.")
     property var commandHintText: i18n("e.g. konsole")
 
     CheckBox {
@@ -47,16 +50,10 @@ Kirigami.FormLayout {
         model: actionList
     }
 
-    Label {
-        text: overviewHintText
-        font: Kirigami.Theme.smallFont
-        visible: leftClickAction.currentIndex === 2
-    }
-
     TextField {
         id: leftClickCommand
         placeholderText: commandHintText
-        visible: leftClickAction.currentIndex === 3
+        visible: leftClickAction.currentIndex === 7
     }
 
     Item {
@@ -69,16 +66,10 @@ Kirigami.FormLayout {
         model: actionList
     }
 
-    Label {
-        text: overviewHintText
-        font: Kirigami.Theme.smallFont
-        visible: middleClickAction.currentIndex === 2
-    }
-
     TextField {
         id: middleClickCommand
         placeholderText: commandHintText
-        visible: middleClickAction.currentIndex === 3
+        visible: middleClickAction.currentIndex === 7
     }
 
     Item {
@@ -91,15 +82,9 @@ Kirigami.FormLayout {
         model: actionList
     }
 
-    Label {
-        text: overviewHintText
-        font: Kirigami.Theme.smallFont
-        visible: rightClickAction.currentIndex === 2
-    }
-
     TextField {
         id: rightClickCommand
         placeholderText: commandHintText
-        visible: rightClickAction.currentIndex === 3
+        visible: rightClickAction.currentIndex === 7
     }
 }

@@ -50,6 +50,14 @@ MouseArea {
         } else if (action === 2) {
             executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview")
         } else if (action === 3) {
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ShowDesktopGrid")
+        } else if (action === 4) {
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeAll")
+        } else if (action === 5) {
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Expose")
+        } else if (action === 6) {
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeClass")
+        } else if (action === 7) {
             executable.exec(command)
         }
     }
