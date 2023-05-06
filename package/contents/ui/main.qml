@@ -60,6 +60,16 @@ MouseArea {
         executable.exec(Plasmoid.configuration.command)
     }
 
+    function clickAction(config) {
+        if (config === 1) {
+            action_showDesktop()
+        } else if (config === 2) {
+            action_showOverview()
+        } else if (config === 3) {
+            action_runCommand()
+        }
+    }
+
     // Search the actual gridLayout of the panel
     property GridLayout panelLayout: {
         var candidate = root.parent;
@@ -72,13 +82,26 @@ MouseArea {
         return null;
     }
 
+    acceptedButtons: {
+        if (Plasmoid.configuration.rightClickAction > 0) {
+            Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
+        } else {
+            // Don't disable the context menu
+            Qt.LeftButton | Qt.MiddleButton
+        }
+    }
+
     onClicked: {
-        if (Plasmoid.configuration.leftClickAction === 1) {
-            action_showDesktop()
-        } else if (Plasmoid.configuration.leftClickAction === 2) {
-            action_showOverview()
-        } else if (Plasmoid.configuration.leftClickAction === 3) {
-            action_runCommand()
+        switch (mouse.button) {
+        case Qt.LeftButton:
+            clickAction(Plasmoid.configuration.leftClickAction);
+            break;
+        case Qt.MiddleButton:
+            clickAction(Plasmoid.configuration.middleClickAction);
+            break;
+        case Qt.RightButton:
+            clickAction(Plasmoid.configuration.rightClickAction);
+            break;
         }
     }
 

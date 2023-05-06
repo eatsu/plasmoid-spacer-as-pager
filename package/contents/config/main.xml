@@ -28,8 +28,36 @@
         </choices>
         <default>0</default>
     </entry>
-    <entry name="command" type="String">
-      <label>Command to run.</label>
+    <entry name="leftClickCommand" type="String">
+      <label>Command to run with left-mouse click.</label>
+      <default></default>
+    </entry>
+    <entry name="middleClickAction" type="Enum">
+        <label>What to do on middle-mouse click on the spacer.</label>
+        <choices>
+            <choice name="DoNothing"/>
+            <choice name="ShowDesktop"/>
+            <choice name="ShowOverview"/>
+            <choice name="RunCommand"/>
+        </choices>
+        <default>0</default>
+    </entry>
+    <entry name="middleClickCommand" type="String">
+      <label>Command to run with middle-mouse click.</label>
+      <default></default>
+    </entry>
+    <entry name="rightClickAction" type="Enum">
+        <label>What to do on right-mouse click on the spacer.</label>
+        <choices>
+            <choice name="DoNothing"/>
+            <choice name="ShowDesktop"/>
+            <choice name="ShowOverview"/>
+            <choice name="RunCommand"/>
+        </choices>
+        <default>0</default>
+    </entry>
+    <entry name="rightClickCommand" type="String">
+      <label>Command to run with right-mouse click.</label>
       <default></default>
     </entry>
   </group>

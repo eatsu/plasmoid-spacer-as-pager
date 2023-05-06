@@ -15,8 +15,21 @@ Kirigami.FormLayout {
     anchors.right: parent.right
 
     property alias cfg_wrapPage: wrapPage.checked
-    property alias cfg_command: command.text
-    property int cfg_leftClickAction
+    property alias cfg_leftClickAction: leftClickAction.currentIndex
+    property alias cfg_leftClickCommand: leftClickCommand.text
+    property alias cfg_middleClickAction: middleClickAction.currentIndex
+    property alias cfg_middleClickCommand: middleClickCommand.text
+    property alias cfg_rightClickAction: rightClickAction.currentIndex
+    property alias cfg_rightClickCommand: rightClickCommand.text
+
+    property var actionList: [
+        i18n("Do nothing"),
+        i18n("Show the desktop"),
+        i18n("Show the overview"),
+        i18n("Run a command"),
+    ]
+    property var overviewHintText: i18n("The Overview effect must be enabled to use this.")
+    property var commandHintText: i18n("e.g. konsole")
 
     CheckBox {
         Kirigami.FormData.label: i18n("Mouse wheel:")
@@ -28,51 +41,65 @@ Kirigami.FormLayout {
         Kirigami.FormData.isSection: true
     }
 
-    ButtonGroup {
-        id: leftClickActionGroup
-    }
-
-    RadioButton {
+    ComboBox {
         Kirigami.FormData.label: i18n("Left click:")
-        id: doNothingRadio
-        text: i18n("Do nothing")
-        checked: cfg_leftClickAction === 0
-        onToggled: if (checked) cfg_leftClickAction = 0
-        ButtonGroup.group: leftClickActionGroup
-    }
-
-    RadioButton {
-        id: showDesktopRadio
-        text: i18n("Show the desktop")
-        checked: cfg_leftClickAction === 1
-        onToggled: if (checked) cfg_leftClickAction = 1
-        ButtonGroup.group: leftClickActionGroup
-    }
-
-    RadioButton {
-        id: showOverviewRadio
-        text: i18n("Show the overview")
-        checked: cfg_leftClickAction === 2
-        onToggled: if (checked) cfg_leftClickAction = 2
-        ButtonGroup.group: leftClickActionGroup
+        id: leftClickAction
+        model: actionList
     }
 
     Label {
-        text: i18n("The Overview effect must be enabled to use this.")
+        text: overviewHintText
         font: Kirigami.Theme.smallFont
-    }
-
-    RadioButton {
-        id: runCommandRadio
-        text: i18n("Run command")
-        checked: cfg_leftClickAction === 3
-        onToggled: if (checked) cfg_leftClickAction = 3
-        ButtonGroup.group: leftClickActionGroup
+        visible: leftClickAction.currentIndex === 2
     }
 
     TextField {
-        id: command
-        placeholderText: i18n("e.g. konsole")
-        enabled: runCommandRadio.checked
+        id: leftClickCommand
+        placeholderText: commandHintText
+        visible: leftClickAction.currentIndex === 3
+    }
+
+    Item {
+        Kirigami.FormData.isSection: true
+    }
+
+    ComboBox {
+        Kirigami.FormData.label: i18n("Middle click:")
+        id: middleClickAction
+        model: actionList
+    }
+
+    Label {
+        text: overviewHintText
+        font: Kirigami.Theme.smallFont
+        visible: middleClickAction.currentIndex === 2
+    }
+
+    TextField {
+        id: middleClickCommand
+        placeholderText: commandHintText
+        visible: middleClickAction.currentIndex === 3
+    }
+
+    Item {
+        Kirigami.FormData.isSection: true
+    }
+
+    ComboBox {
+        Kirigami.FormData.label: i18n("Right click:")
+        id: rightClickAction
+        model: actionList
+    }
+
+    Label {
+        text: overviewHintText
+        font: Kirigami.Theme.smallFont
+        visible: rightClickAction.currentIndex === 2
+    }
+
+    TextField {
+        id: rightClickCommand
+        placeholderText: commandHintText
+        visible: rightClickAction.currentIndex === 3
     }
 }
