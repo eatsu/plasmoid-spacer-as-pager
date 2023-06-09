@@ -12,7 +12,7 @@ import org.kde.kirigami 2.10 as Kirigami
 import org.kde.kquickcontrolsaddons 2.0 as KQuickControlsAddonsComponents
 import org.kde.plasma.private.pager 2.0
 
-MouseArea {
+Item {
     id: root
 
     property bool horizontal: Plasmoid.formFactor !== PlasmaCore.Types.Vertical
@@ -78,70 +78,75 @@ MouseArea {
         return null;
     }
 
-    acceptedButtons: {
-        if (Plasmoid.configuration.rightClickAction > 0) {
-            Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
-        } else {
-            // Don't disable the context menu
-            Qt.LeftButton | Qt.MiddleButton
-        }
-    }
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
 
-    onClicked: {
-        switch (mouse.button) {
-        case Qt.LeftButton:
-            setClickAction(
-                Plasmoid.configuration.leftClickAction,
-                Plasmoid.configuration.leftClickCommand
-            );
-            break;
-        case Qt.MiddleButton:
-            setClickAction(
-                Plasmoid.configuration.middleClickAction,
-                Plasmoid.configuration.middleClickCommand
-            );
-            break;
-        case Qt.RightButton:
-            setClickAction(
-                Plasmoid.configuration.rightClickAction,
-                Plasmoid.configuration.rightClickCommand
-            );
-            break;
-        }
-    }
-
-    onWheel: {
-        // Magic number 120 for common one click, see:
-        // https://doc.qt.io/qt-5/qml-qtquick-wheelevent.html#angleDelta-prop
-        wheelDelta += wheel.angleDelta.y || wheel.angleDelta.x;
-
-        let increment = 0;
-
-        while (wheelDelta >= 120) {
-            wheelDelta -= 120;
-            increment++;
-        }
-
-        while (wheelDelta <= -120) {
-            wheelDelta += 120;
-            increment--;
-        }
-
-        while (increment !== 0) {
-            if (increment < 0) {
-                const nextPage = Plasmoid.configuration.wrapPage?
-                    (pagerModel.currentPage + 1) % pagerModel.count :
-                    Math.min(pagerModel.currentPage + 1, pagerModel.count - 1);
-                pagerModel.changePage(nextPage);
+        acceptedButtons: {
+            if (Plasmoid.configuration.rightClickAction > 0) {
+                Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
             } else {
-                const previousPage = Plasmoid.configuration.wrapPage ?
-                    (pagerModel.count + pagerModel.currentPage - 1) % pagerModel.count :
-                    Math.max(pagerModel.currentPage - 1, 0);
-                pagerModel.changePage(previousPage);
+                // Don't disable the context menu
+                Qt.LeftButton | Qt.MiddleButton
+            }
+        }
+
+        onClicked: {
+            switch (mouse.button) {
+            case Qt.LeftButton:
+                setClickAction(
+                    Plasmoid.configuration.leftClickAction,
+                    Plasmoid.configuration.leftClickCommand
+                );
+                break;
+            case Qt.MiddleButton:
+                setClickAction(
+                    Plasmoid.configuration.middleClickAction,
+                    Plasmoid.configuration.middleClickCommand
+                );
+                break;
+            case Qt.RightButton:
+                setClickAction(
+                    Plasmoid.configuration.rightClickAction,
+                    Plasmoid.configuration.rightClickCommand
+                );
+                break;
+            }
+        }
+
+        onWheel: {
+            // Magic number 120 for common one click, see:
+            // https://doc.qt.io/qt-5/qml-qtquick-wheelevent.html#angleDelta-prop
+            wheelDelta += wheel.angleDelta.y || wheel.angleDelta.x;
+
+            let increment = 0;
+
+            while (wheelDelta >= 120) {
+                wheelDelta -= 120;
+                increment++;
             }
 
-            increment += (increment < 0) ? 1 : -1;
-            wheelDelta = 0;
+            while (wheelDelta <= -120) {
+                wheelDelta += 120;
+                increment--;
+            }
+
+            while (increment !== 0) {
+                if (increment < 0) {
+                    const nextPage = Plasmoid.configuration.wrapPage?
+                        (pagerModel.currentPage + 1) % pagerModel.count :
+                        Math.min(pagerModel.currentPage + 1, pagerModel.count - 1);
+                    pagerModel.changePage(nextPage);
+                } else {
+                    const previousPage = Plasmoid.configuration.wrapPage ?
+                        (pagerModel.count + pagerModel.currentPage - 1) % pagerModel.count :
+                        Math.max(pagerModel.currentPage - 1, 0);
+                    pagerModel.changePage(previousPage);
+                }
+
+                increment += (increment < 0) ? 1 : -1;
+                wheelDelta = 0;
+            }
         }
     }
 
