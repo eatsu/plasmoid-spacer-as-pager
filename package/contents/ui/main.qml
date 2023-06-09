@@ -14,7 +14,7 @@ import org.kde.plasma.private.pager 2.0
 import org.kde.kcmutils as KCM
 import org.kde.config as KConfig
 
-Item {
+PlasmoidItem {
     id: root
 
     property bool horizontal: Plasmoid.formFactor !== PlasmaCore.Types.Vertical
@@ -22,8 +22,8 @@ Item {
     Layout.fillWidth: Plasmoid.configuration.expanding
     Layout.fillHeight: Plasmoid.configuration.expanding
 
-    Layout.minimumWidth: Plasmoid.editMode ? PlasmaCore.Units.gridUnit * 2 : 1
-    Layout.minimumHeight: Plasmoid.editMode ? PlasmaCore.Units.gridUnit * 2 : 1
+    Layout.minimumWidth: Plasmoid.containment.corona?.editMode ? PlasmaCore.Units.gridUnit * 2 : 1
+    Layout.minimumHeight: Plasmoid.containment.corona?.editMode ? PlasmaCore.Units.gridUnit * 2 : 1
     Layout.preferredWidth: horizontal
         ? (Plasmoid.configuration.expanding ? optimalSize : Plasmoid.configuration.length)
         : 0
@@ -31,7 +31,7 @@ Item {
         ? 0
         : (Plasmoid.configuration.expanding ? optimalSize : Plasmoid.configuration.length)
 
-    Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
+    preferredRepresentation: fullRepresentation
 
     P5Support.DataSource {
         id: executable
@@ -155,7 +155,7 @@ Item {
     PagerModel {
         id: pagerModel
         enabled: root.visible
-        screenGeometry: Plasmoid.screenGeometry
+        screenGeometry: Plasmoid.containment.screenGeometry
     }
 
     Component.onCompleted: {
@@ -195,15 +195,15 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: PlasmaCore.Theme.highlightColor
-        opacity: Plasmoid.editMode ? 1 : 0
-        visible: Plasmoid.editMode || animator.running
+        opacity: Plasmoid.containment.corona?.editMode ? 1 : 0
+        visible: Plasmoid.containment.corona?.editMode || animator.running
 
         Behavior on opacity {
             NumberAnimation {
                 id: animator
                 duration: PlasmaCore.Units.longDuration
                 // easing.type is updated after animation starts
-                easing.type: Plasmoid.editMode ? Easing.InCubic : Easing.OutCubic
+                easing.type: Plasmoid.containment.corona?.editMode ? Easing.InCubic : Easing.OutCubic
             }
         }
     }
