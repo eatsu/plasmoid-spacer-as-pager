@@ -34,7 +34,7 @@ Item {
         id: executable
         engine: "executable"
         connectedSources: []
-        onNewData: disconnectSource(sourceName)
+        onNewData: (sourceName) => disconnectSource(sourceName)
 
         function exec(cmd) {
             connectSource(cmd);
@@ -90,7 +90,7 @@ Item {
             }
         }
 
-        onClicked: {
+        onClicked: (mouse) => {
             switch (mouse.button) {
             case Qt.LeftButton:
                 setClickAction(
@@ -113,7 +113,7 @@ Item {
             }
         }
 
-        onWheel: {
+        onWheel: (wheel) => {
             // Magic number 120 for common "one click", see:
             // https://doc.qt.io/qt-5/qml-qtquick-wheelevent.html#angleDelta-prop
             wheelDelta += wheel.angleDelta.y || wheel.angleDelta.x;
