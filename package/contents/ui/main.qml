@@ -31,8 +31,6 @@ Item {
 
     Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
 
-    property int wheelDelta: 0
-
     PlasmaCore.DataSource {
         id: executable
         engine: "executable"
@@ -81,6 +79,8 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
+
+        property int wheelDelta: 0
 
         acceptedButtons: {
             if (Plasmoid.configuration.rightClickAction > 0) {
