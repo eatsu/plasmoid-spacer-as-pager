@@ -6,9 +6,8 @@
 
 import QtQuick 2.15
 import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
-import org.kde.kirigami 2.10 as Kirigami
+import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.kquickcontrolsaddons 2.0 as KQuickControlsAddonsComponents
 import org.kde.plasma.private.pager 2.0
 
@@ -38,25 +37,25 @@ Item {
         onNewData: disconnectSource(sourceName)
 
         function exec(cmd) {
-            executable.connectSource(cmd)
+            connectSource(cmd);
         }
     }
 
     function setClickAction(action, command) {
         if (action === 1) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut 'Show Desktop'")
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut 'Show Desktop'");
         } else if (action === 2) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview")
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview");
         } else if (action === 3) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ShowDesktopGrid")
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ShowDesktopGrid");
         } else if (action === 4) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeAll")
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeAll");
         } else if (action === 5) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Expose")
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Expose");
         } else if (action === 6) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeClass")
+            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeClass");
         } else if (action === 7) {
-            executable.exec(command)
+            executable.exec(command);
         }
     }
 
@@ -66,7 +65,7 @@ Item {
 
     // Search the actual gridLayout of the panel
     property GridLayout panelLayout: {
-        var candidate = root.parent;
+        let candidate = root.parent;
         while (candidate) {
             if (candidate instanceof GridLayout) {
                 return candidate;
@@ -84,10 +83,10 @@ Item {
 
         acceptedButtons: {
             if (Plasmoid.configuration.rightClickAction > 0) {
-                Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
+                Qt.LeftButton | Qt.MiddleButton | Qt.RightButton;
             } else {
                 // Don't disable the context menu
-                Qt.LeftButton | Qt.MiddleButton
+                Qt.LeftButton | Qt.MiddleButton;
             }
         }
 
@@ -115,7 +114,7 @@ Item {
         }
 
         onWheel: {
-            // Magic number 120 for common one click, see:
+            // Magic number 120 for common "one click", see:
             // https://doc.qt.io/qt-5/qml-qtquick-wheelevent.html#angleDelta-prop
             wheelDelta += wheel.angleDelta.y || wheel.angleDelta.x;
 
@@ -168,8 +167,8 @@ Item {
         let thisSpacerIndex = null;
         let sizeHints = [0];
         // Children order is guaranteed to be the same as the visual order of items in the layout
-        for (var i in panelLayout.children) {
-            var child = panelLayout.children[i];
+        for (const i in panelLayout.children) {
+            const child = panelLayout.children[i];
             if (!child.visible) continue;
 
             if (child.applet && child.applet.pluginName === Plasmoid.pluginName && child.applet.configuration.expanding) {
