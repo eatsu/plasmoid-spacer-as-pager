@@ -11,8 +11,12 @@ due to its size (too small or too big) and appearance (cluttered and distracting
 
 - Supports both flexible and fixed sizes.
 - Navigation can wrap around.
-- You can left-click/middle-click/right-click to show
-  Desktop/Overview/Desktop Grid/Present Windows or run any command.
+- You can left-click/middle-click/right-click the spacer to:
+  - Peek at Desktop
+  - Show Overview
+  - Show Desktop Grid
+  - Show Present Windows
+  - Run Command
 
 
 ## Known issue

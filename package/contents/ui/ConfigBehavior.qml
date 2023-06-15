@@ -24,7 +24,7 @@ Kirigami.FormLayout {
 
     property var actionList: [
         i18n("Do Nothing"),
-        i18n("Show Desktop"),
+        i18n("Peek at Desktop"),
         i18n("Show Overview"),
         i18n("Show Desktop Grid"),
         i18n("Show Present Windows (All Desktops)"),
