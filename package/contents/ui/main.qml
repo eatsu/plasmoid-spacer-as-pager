@@ -34,10 +34,6 @@ PlasmoidItem {
 
     preferredRepresentation: fullRepresentation
 
-    function action_openKCM() {
-        KCM.KCMLauncher.openSystemSettings("kcm_kwin_virtualdesktops");
-    }
-
     // Search the actual gridLayout of the panel
     property GridLayout panelLayout: {
         let candidate = root.parent;
@@ -203,9 +199,12 @@ PlasmoidItem {
         }
     }
 
-    Component.onCompleted: {
-        if (KConfig.KAuthorized.authorize("kcm_kwin_virtualdesktops")) {
-            Plasmoid.setAction("openKCM", i18n("Configure Virtual Desktops…"), "configure");
+    Plasmoid.contextualActions: [
+        PlasmaCore.Action {
+            text: i18n("Configure Virtual Desktops…")
+            icon.name: "configure"
+            visible: KConfig.KAuthorized.authorize("kcm_kwin_virtualdesktops")
+            onTriggered: KCM.KCMLauncher.openSystemSettings("kcm_kwin_virtualdesktops")
         }
-    }
+    ]
 }
