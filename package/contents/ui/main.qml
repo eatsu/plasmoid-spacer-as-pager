@@ -87,17 +87,17 @@ PlasmoidItem {
 
     function runClickAction(action, command) {
         if (action === 1) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut 'Show Desktop'");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut 'Show Desktop'");
         } else if (action === 2) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview");
         } else if (action === 3) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ShowDesktopGrid");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ShowDesktopGrid");
         } else if (action === 4) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeAll");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeAll");
         } else if (action === 5) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Expose");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Expose");
         } else if (action === 6) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeClass");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeClass");
         } else if (action === 7) {
             executable.exec(command);
         }
