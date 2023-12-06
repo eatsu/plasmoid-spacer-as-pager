@@ -6,7 +6,6 @@ This widget is suitable for people who want to quickly switch between virtual de
 only with mouse, but find [Pager](https://userbase.kde.org/Plasma/Pager) uncomfortable
 due to its size (too small or too big) and appearance (cluttered and distracting).
 
-
 ## Features
 
 - Supports both flexible and fixed sizes.
@@ -18,29 +17,26 @@ due to its size (too small or too big) and appearance (cluttered and distracting
   - Show Present Windows
   - Run Command
 
-
 ## Known issue
 
 You cannot combine this widget with the built-in panel spacer to center other widgets.
 Instead, place this widget on each side.
-
 
 ## Installation
 
 ### From GUI
 
 1. Right-click the desktop or panel and select `Add Widgets…`.
-3. Select `Get New Widgets…` and then `Download New Plasma Widgets`.
-5. Search for `Spacer as Pager` and press `Install`.
+2. Select `Get New Widgets…` and then `Download New Plasma Widgets`.
+3. Search for `Spacer as Pager` and press `Install`.
 
 ### From the source
 
-```
+```sh
 git clone https://github.com/eatsu/plasmoid-spacer-as-pager.git
 cd plasmoid-spacer-as-pager
 kpackagetool5 -i package
 ```
-
 
 ## TODO
 
@@ -48,11 +44,9 @@ kpackagetool5 -i package
 - Allow displaying the current desktop name.
 - Bundle the icon into the package (if possible).
 
-
 ## License
 
 GPLv2+
-
 
 ## References
 
