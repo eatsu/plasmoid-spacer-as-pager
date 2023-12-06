@@ -30,6 +30,50 @@ Item {
 
     Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
 
+    function action_openKCM() {
+        KQuickControlsAddonsComponents.KCMShell.openSystemSettings("kcm_kwin_virtualdesktops");
+    }
+
+    // Search the actual gridLayout of the panel
+    property GridLayout panelLayout: {
+        let candidate = root.parent;
+        while (candidate) {
+            if (candidate instanceof GridLayout) {
+                return candidate;
+            }
+            candidate = candidate.parent;
+        }
+        return null;
+    }
+
+    property real optimalSize: {
+        if (!panelLayout || !Plasmoid.configuration.expanding) return Plasmoid.configuration.length;
+        let expandingSpacers = 0;
+        let thisSpacerIndex = null;
+        let sizeHints = [0];
+        // Children order is guaranteed to be the same as the visual order of items in the layout
+        for (const i in panelLayout.children) {
+            const child = panelLayout.children[i];
+            if (!child.visible) continue;
+
+            if (child.applet && child.applet.pluginName === Plasmoid.pluginName && child.applet.configuration.expanding) {
+                if (child === Plasmoid.parent) {
+                    thisSpacerIndex = expandingSpacers
+                }
+                sizeHints.push(0)
+                expandingSpacers += 1
+            } else if (root.horizontal) {
+                sizeHints[sizeHints.length - 1] += Math.min(child.Layout.maximumWidth, Math.max(child.Layout.minimumWidth, child.Layout.preferredWidth)) + panelLayout.rowSpacing;
+            } else {
+                sizeHints[sizeHints.length - 1] += Math.min(child.Layout.maximumHeight, Math.max(child.Layout.minimumHeight, child.Layout.preferredHeight)) + panelLayout.columnSpacing;
+            }
+        }
+        sizeHints[0] *= 2; sizeHints[sizeHints.length - 1] *= 2
+        let containment = panelLayout
+        let opt = (root.horizontal ? containment.width : containment.height) / expandingSpacers - sizeHints[thisSpacerIndex] / 2 - sizeHints[thisSpacerIndex + 1] / 2
+        return Math.max(opt, 0)
+    }
+
     PlasmaCore.DataSource {
         id: executable
         engine: "executable"
@@ -59,20 +103,10 @@ Item {
         }
     }
 
-    function action_openKCM() {
-        KQuickControlsAddonsComponents.KCMShell.openSystemSettings("kcm_kwin_virtualdesktops");
-    }
-
-    // Search the actual gridLayout of the panel
-    property GridLayout panelLayout: {
-        let candidate = root.parent;
-        while (candidate) {
-            if (candidate instanceof GridLayout) {
-                return candidate;
-            }
-            candidate = candidate.parent;
-        }
-        return null;
+    PagerModel {
+        id: pagerModel
+        enabled: root.visible
+        screenGeometry: Plasmoid.screenGeometry
     }
 
     MouseArea {
@@ -149,46 +183,6 @@ Item {
         }
     }
 
-    PagerModel {
-        id: pagerModel
-        enabled: root.visible
-        screenGeometry: Plasmoid.screenGeometry
-    }
-
-    Component.onCompleted: {
-        if (KQuickControlsAddonsComponents.KCMShell.authorize("kcm_kwin_virtualdesktops.desktop").length > 0) {
-            Plasmoid.setAction("openKCM", i18n("Configure Virtual Desktops…"), "configure");
-        }
-    }
-
-    property real optimalSize: {
-        if (!panelLayout || !Plasmoid.configuration.expanding) return Plasmoid.configuration.length;
-        let expandingSpacers = 0;
-        let thisSpacerIndex = null;
-        let sizeHints = [0];
-        // Children order is guaranteed to be the same as the visual order of items in the layout
-        for (const i in panelLayout.children) {
-            const child = panelLayout.children[i];
-            if (!child.visible) continue;
-
-            if (child.applet && child.applet.pluginName === Plasmoid.pluginName && child.applet.configuration.expanding) {
-                if (child === Plasmoid.parent) {
-                    thisSpacerIndex = expandingSpacers
-                }
-                sizeHints.push(0)
-                expandingSpacers += 1
-            } else if (root.horizontal) {
-                sizeHints[sizeHints.length - 1] += Math.min(child.Layout.maximumWidth, Math.max(child.Layout.minimumWidth, child.Layout.preferredWidth)) + panelLayout.rowSpacing;
-            } else {
-                sizeHints[sizeHints.length - 1] += Math.min(child.Layout.maximumHeight, Math.max(child.Layout.minimumHeight, child.Layout.preferredHeight)) + panelLayout.columnSpacing;
-            }
-        }
-        sizeHints[0] *= 2; sizeHints[sizeHints.length - 1] *= 2
-        let containment = panelLayout
-        let opt = (root.horizontal ? containment.width : containment.height) / expandingSpacers - sizeHints[thisSpacerIndex] / 2 - sizeHints[thisSpacerIndex + 1] / 2
-        return Math.max(opt, 0)
-    }
-
     Rectangle {
         anchors.fill: parent
         color: PlasmaCore.Theme.highlightColor
@@ -202,6 +196,12 @@ Item {
                 // easing.type is updated after animation starts
                 easing.type: Plasmoid.editMode ? Easing.InCubic : Easing.OutCubic
             }
+        }
+    }
+
+    Component.onCompleted: {
+        if (KQuickControlsAddonsComponents.KCMShell.authorize("kcm_kwin_virtualdesktops.desktop").length > 0) {
+            Plasmoid.setAction("openKCM", i18n("Configure Virtual Desktops…"), "configure");
         }
     }
 }
