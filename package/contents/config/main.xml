@@ -5,7 +5,7 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   <kcfgfile name=""/>
 
-  <group name="General">
+  <group name="Appearance">
     <entry name="expanding" type="bool">
         <label>If true, the spacer tries to take all the available space in the panel.</label>
         <default>true</default>
@@ -14,6 +14,9 @@
         <label>length in pixels of the spacer. Configuration effective only if expanding is set to false. A negative value means an invalid value that should be completely ignored.</label>
         <default>8</default>
     </entry>
+  </group>
+
+  <group name="Behavior">
     <entry name="wrapPage" type="Bool">
         <label>Whether to wrap page when navigating with the spacer.</label>
         <default>false</default>
