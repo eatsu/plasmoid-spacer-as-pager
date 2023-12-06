@@ -35,7 +35,7 @@ Instead, place this widget on each side.
 ```sh
 git clone https://github.com/eatsu/plasmoid-spacer-as-pager.git
 cd plasmoid-spacer-as-pager
-kpackagetool5 -i package
+kpackagetool6 -t Plasma/Applet -i package
 ```
 
 ## TODO
