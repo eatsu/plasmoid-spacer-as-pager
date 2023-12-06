@@ -24,7 +24,7 @@ KCM.SimpleKCM {
         i18n("Do Nothing"),
         i18n("Peek at Desktop"),
         i18n("Show Overview"),
-        i18n("Show Desktop Grid"),
+        i18n("Show Grid View"),
         i18n("Show Present Windows (All Desktops)"),
         i18n("Show Present Windows (Current Desktop)"),
         i18n("Show Present Windows (Current Application)"),

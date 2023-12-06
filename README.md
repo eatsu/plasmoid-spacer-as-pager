@@ -13,7 +13,7 @@ due to its size (too small or too big) and appearance (cluttered and distracting
 - You can left-click/middle-click/right-click the spacer to:
   - Peek at Desktop
   - Show Overview (default for left-click)
-  - Show Desktop Grid
+  - Show Grid View
   - Show Present Windows
   - Run Command
 

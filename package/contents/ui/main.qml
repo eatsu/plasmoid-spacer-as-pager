@@ -91,7 +91,7 @@ PlasmoidItem {
         } else if (action === 2) {
             executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview");
         } else if (action === 3) {
-            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ShowDesktopGrid");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut 'Grid View'");
         } else if (action === 4) {
             executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeAll");
         } else if (action === 5) {

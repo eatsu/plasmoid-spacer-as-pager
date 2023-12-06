@@ -27,7 +27,7 @@
             <choice name="DoNothing"/>
             <choice name="ShowDesktop"/>
             <choice name="ShowOverview"/>
-            <choice name="ShowDesktopGrid"/>
+            <choice name="ShowGridView"/>
             <choice name="ExposeAll"/>
             <choice name="Expose"/>
             <choice name="ExposeClass"/>
@@ -45,7 +45,7 @@
             <choice name="DoNothing"/>
             <choice name="ShowDesktop"/>
             <choice name="ShowOverview"/>
-            <choice name="ShowDesktopGrid"/>
+            <choice name="ShowGridView"/>
             <choice name="ExposeAll"/>
             <choice name="Expose"/>
             <choice name="ExposeClass"/>
@@ -63,7 +63,7 @@
             <choice name="DoNothing"/>
             <choice name="ShowDesktop"/>
             <choice name="ShowOverview"/>
-            <choice name="ShowDesktopGrid"/>
+            <choice name="ShowGridView"/>
             <choice name="ExposeAll"/>
             <choice name="Expose"/>
             <choice name="ExposeClass"/>
