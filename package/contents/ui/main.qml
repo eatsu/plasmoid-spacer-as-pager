@@ -7,11 +7,15 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.1
 import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.kquickcontrolsaddons 2.0 as KQuickControlsAddonsComponents
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.plasma5support 2.0 as P5Support
 import org.kde.plasma.private.pager 2.0
+import org.kde.kirigami 2.20 as Kirigami
 
-Item {
+import org.kde.kcmutils as KCM
+import org.kde.config as KConfig
+
+PlasmoidItem {
     id: root
 
     property bool horizontal: Plasmoid.formFactor !== PlasmaCore.Types.Vertical
@@ -19,8 +23,8 @@ Item {
     Layout.fillWidth: Plasmoid.configuration.expanding
     Layout.fillHeight: Plasmoid.configuration.expanding
 
-    Layout.minimumWidth: Plasmoid.editMode ? PlasmaCore.Units.gridUnit * 2 : 1
-    Layout.minimumHeight: Plasmoid.editMode ? PlasmaCore.Units.gridUnit * 2 : 1
+    Layout.minimumWidth: Plasmoid.containment.corona?.editMode ? Kirigami.Units.gridUnit * 2 : 1
+    Layout.minimumHeight: Plasmoid.containment.corona?.editMode ? Kirigami.Units.gridUnit * 2 : 1
     Layout.preferredWidth: horizontal
         ? (Plasmoid.configuration.expanding ? optimalSize : Plasmoid.configuration.length)
         : 0
@@ -28,11 +32,7 @@ Item {
         ? 0
         : (Plasmoid.configuration.expanding ? optimalSize : Plasmoid.configuration.length)
 
-    Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
-
-    function action_openKCM() {
-        KQuickControlsAddonsComponents.KCMShell.openSystemSettings("kcm_kwin_virtualdesktops");
-    }
+    preferredRepresentation: fullRepresentation
 
     // Search the actual gridLayout of the panel
     property GridLayout panelLayout: {
@@ -56,8 +56,8 @@ Item {
             const child = panelLayout.children[i];
             if (!child.visible) continue;
 
-            if (child.applet && child.applet.pluginName === Plasmoid.pluginName && child.applet.configuration.expanding) {
-                if (child === Plasmoid.parent) {
+            if (child.applet && child.applet.plasmoid.pluginName === Plasmoid.pluginName && child.applet.plasmoid.configuration.expanding) {
+                if (child.applet.plasmoid === Plasmoid) {
                     thisSpacerIndex = expandingSpacers
                 }
                 sizeHints.push(0)
@@ -74,11 +74,11 @@ Item {
         return Math.max(opt, 0)
     }
 
-    PlasmaCore.DataSource {
+    P5Support.DataSource {
         id: executable
         engine: "executable"
         connectedSources: []
-        onNewData: disconnectSource(sourceName)
+        onNewData: sourceName => disconnectSource(sourceName)
 
         function exec(cmd) {
             connectSource(cmd);
@@ -87,17 +87,17 @@ Item {
 
     function runClickAction(action, command) {
         if (action === 1) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut 'Show Desktop'");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut 'Show Desktop'");
         } else if (action === 2) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Overview");
         } else if (action === 3) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ShowDesktopGrid");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut 'Grid View'");
         } else if (action === 4) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeAll");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeAll");
         } else if (action === 5) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Expose");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut Expose");
         } else if (action === 6) {
-            executable.exec("qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeClass");
+            executable.exec("/usr/lib/qt6/bin/qdbus org.kde.kglobalaccel /component/kwin invokeShortcut ExposeClass");
         } else if (action === 7) {
             executable.exec(command);
         }
@@ -106,7 +106,7 @@ Item {
     PagerModel {
         id: pagerModel
         enabled: root.visible
-        screenGeometry: Plasmoid.screenGeometry
+        screenGeometry: Plasmoid.containment.screenGeometry
     }
 
     MouseArea {
@@ -124,7 +124,7 @@ Item {
             }
         }
 
-        onClicked: {
+        onClicked: mouse => {
             switch (mouse.button) {
             case Qt.LeftButton:
                 runClickAction(
@@ -147,7 +147,7 @@ Item {
             }
         }
 
-        onWheel: {
+        onWheel: wheel => {
             // Magic number 120 for common "one click", see:
             // https://doc.qt.io/qt-5/qml-qtquick-wheelevent.html#angleDelta-prop
             wheelDelta += wheel.angleDelta.y || wheel.angleDelta.x;
@@ -185,23 +185,26 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: PlasmaCore.Theme.highlightColor
-        opacity: Plasmoid.editMode ? 1 : 0
-        visible: Plasmoid.editMode || animator.running
+        color: Kirigami.Theme.highlightColor
+        opacity: Plasmoid.containment.corona?.editMode ? 1 : 0
+        visible: Plasmoid.containment.corona?.editMode || animator.running
 
         Behavior on opacity {
             NumberAnimation {
                 id: animator
-                duration: PlasmaCore.Units.longDuration
+                duration: Kirigami.Units.longDuration
                 // easing.type is updated after animation starts
-                easing.type: Plasmoid.editMode ? Easing.InCubic : Easing.OutCubic
+                easing.type: Plasmoid.containment.corona?.editMode ? Easing.InCubic : Easing.OutCubic
             }
         }
     }
 
-    Component.onCompleted: {
-        if (KQuickControlsAddonsComponents.KCMShell.authorize("kcm_kwin_virtualdesktops.desktop").length > 0) {
-            Plasmoid.setAction("openKCM", i18n("Configure Virtual Desktops…"), "configure");
+    Plasmoid.contextualActions: [
+        PlasmaCore.Action {
+            text: i18n("Configure Virtual Desktops…")
+            icon.name: "configure"
+            visible: KConfig.KAuthorized.authorize("kcm_kwin_virtualdesktops")
+            onTriggered: KCM.KCMLauncher.openSystemSettings("kcm_kwin_virtualdesktops")
         }
-    }
+    ]
 }
