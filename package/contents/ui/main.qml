@@ -1,5 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2023 eatsu <mkrmdk@gmail.com>
+    SPDX-FileCopyrightText: 2025 Emma MB <emma@meredithblack.com>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
@@ -9,7 +10,6 @@ import QtQuick.Layouts 1.1
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasma5support 2.0 as P5Support
-import org.kde.plasma.private.pager 2.0
 import org.kde.kirigami 2.20 as Kirigami
 
 import org.kde.kcmutils as KCM
@@ -85,6 +85,22 @@ PlasmoidItem {
         }
     }
 
+    P5Support.DataSource {
+        id: desktopQuery
+        engine: "executable"
+        connectedSources: []
+        property bool pendingForward: true
+
+        onNewData: (sourceName, data) => {
+            disconnectSource(sourceName);
+            const current = parseInt(data["stdout"].trim());
+            if (!isNaN(current)) {
+                const next = pendingForward ? current + 1 : current - 1;
+                executable.exec(`dbus-send --session --type=method_call --dest=org.kde.KWin /KWin org.kde.KWin.setCurrentDesktop int32:${next}`);
+            }
+        }
+    }
+
     function runClickAction(action, command) {
         const shortcuts = [
             "Show Desktop",
@@ -103,10 +119,14 @@ PlasmoidItem {
         }
     }
 
-    PagerModel {
-        id: pagerModel
-        enabled: root.visible
-        screenGeometry: Plasmoid.containment.screenGeometry
+    function switchDesktop(forward) {
+        if (Plasmoid.configuration.wrapPage) {
+            const method = forward ? "nextDesktop" : "previousDesktop";
+            executable.exec(`dbus-send --session --type=method_call --dest=org.kde.KWin /KWin org.kde.KWin.${method}`);
+        } else {
+            desktopQuery.pendingForward = forward;
+            desktopQuery.connectSource("dbus-send --session --print-reply --dest=org.kde.KWin /KWin org.kde.KWin.currentDesktop | awk '/int32/{print $2}'");
+        }
     }
 
     MouseArea {
@@ -165,18 +185,7 @@ PlasmoidItem {
             }
 
             while (increment !== 0) {
-                if (increment < 0) {
-                    const nextPage = Plasmoid.configuration.wrapPage?
-                        (pagerModel.currentPage + 1) % pagerModel.count :
-                        Math.min(pagerModel.currentPage + 1, pagerModel.count - 1);
-                    pagerModel.changePage(nextPage);
-                } else {
-                    const previousPage = Plasmoid.configuration.wrapPage ?
-                        (pagerModel.count + pagerModel.currentPage - 1) % pagerModel.count :
-                        Math.max(pagerModel.currentPage - 1, 0);
-                    pagerModel.changePage(previousPage);
-                }
-
+                switchDesktop(increment < 0);
                 increment += (increment < 0) ? 1 : -1;
                 wheelDelta = 0;
             }
